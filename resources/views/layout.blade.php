@@ -22,6 +22,7 @@
             <a href="{{ route('home.index') }}">Home</a>
             <a href="{{ route('home.products') }}">Products</a>
             <a href="{{ route('computers.index') }}">Computers</a>
+            <a href="{{ route('computers.create') }}">Add computer</a>
             <a href="{{ route('home.contact') }}">Contact</a>
             </nav> 
         </div>

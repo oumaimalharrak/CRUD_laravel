@@ -50,10 +50,16 @@ class ComputerController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'computer-name'=> 'required',
+            'computer-origin'=> 'required',
+            'computer-price'=> ['required', 'integer'],
+        ]);
+
         $computer = new Computer();
-        $computer->name= $request->input('computer-name');
-        $computer ->origin= $request->input('computer-origin') ;
-        $computer->price= $request->input('computer-price') ;
+        $computer->name= strip_tags($request->input('computer-name'));
+        $computer ->origin= strip_tags($request->input('computer-origin')) ;
+        $computer->price= strip_tags($request->input('computer-price') );
 
         $computer->save();
         return redirect()->route('computers.index');
@@ -67,11 +73,7 @@ class ComputerController extends Controller
      */
     public function show($computer)
     {
-        $index = Computer::find($computer);
-
-        if($index === false){
-            abort(404);
-        }
+        $index = Computer::findorfail($computer);
         return view('computers.show',[
             'computer'=> $index
         ]);

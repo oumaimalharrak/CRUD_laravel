@@ -54,3 +54,9 @@ form button{
     margin: 10px 0;
     cursor: pointer;
 }
+
+.form-error{
+    margin: .5rem;
+    font-size: .8rem;
+    color: red;
+}
