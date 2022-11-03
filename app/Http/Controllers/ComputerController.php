@@ -3,9 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Computer;
 
 class ComputerController extends Controller
 {
+
+    //array of static data
+    private static function getData(){
+        return [
+            [ 'id' => 1, 'name' => 'LG', 'origin'=> 'Korea'],
+            [ 'id' => 2, 'name' => 'HP', 'origin'=> 'USA'],
+            [ 'id' => 3, 'name' => 'Dell', 'origin'=> 'USA']
+        ];
+    }
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +27,9 @@ class ComputerController extends Controller
      */
     public function index()
     {
-        return view('computers/index');
+        return view('computers/index', [
+            'computers' => Computer::all()
+        ]);
     }
 
     /**
@@ -23,7 +39,7 @@ class ComputerController extends Controller
      */
     public function create()
     {
-        //
+        return view('computers.create');
     }
 
     /**
@@ -34,7 +50,13 @@ class ComputerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $computer = new Computer();
+        $computer->name= $request->input('computer-name');
+        $computer ->origin= $request->input('computer-origin') ;
+        $computer->price= $request->input('computer-price') ;
+
+        $computer->save();
+        return redirect()->route('computers.index');
     }
 
     /**
@@ -43,9 +65,16 @@ class ComputerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($computer)
     {
-        //
+        $index = Computer::find($computer);
+
+        if($index === false){
+            abort(404);
+        }
+        return view('computers.show',[
+            'computer'=> $index
+        ]);
     }
 
     /**
